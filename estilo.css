@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+body.tema-escuro {
+  background-color: #121212;
+  color: #eee;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: orange;
+  padding: 10px 20px;
+}
+
+.menu button {
+  margin-left: 10px;
+  background: white;
+  border: 2px solid black;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.conteudo {
+  padding: 20px;
+}
+
+.rodape {
+  background: orange;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-conteudo {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-conteudo input {
+  width: 90%;
+  margin: 5px 0;
+  padding: 8px;
+  border: 2px solid gray;
+}
+
+.modal-conteudo input.erro {
+  border-color: red;
+}
+
+.modal-conteudo ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+  text-align: left;
+}
+
+.modal-conteudo ul li {
+  padding: 5px 0;
+}
+
+.modal-conteudo ul li a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.modal-conteudo ul li a:hover {
+  text-decoration: underline;
+}
+
+.fechar {
+  float: right;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
+
+.oculto {
+  display: none;
+}
+
+.mensagem-erro {
+  color: red;
+  font-weight: bold;
+  margin: 5px 0 10px 0;
+}

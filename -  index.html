@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meu Site Completo</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <h1>Meu Site Completo</h1>
+    <nav class="menu">
+      <button onclick="abrirMenu()">☰ Menu</button>
+      <button onclick="abrirLogin()">Login</button>
+      <button onclick="alternarTema()">🌗 Tema</button>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    <p>Bem-vindo à página inicial! Explore os recursos disponíveis no menu acima.</p>
+  </main>
+
+  <footer class="rodape">
+    &copy; 2025 Telmo. Todos os direitos reservados.
+  </footer>
+
+  <!-- Modal de Login/Cadastro -->
+  <div id="modalLogin" class="modal oculto">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharLogin()">&times;</span>
+
+      <div id="abasLogin">
+        <h2>Login</h2>
+        <input id="usuario" placeholder="Usuário" />
+        <input id="senha" type="password" placeholder="Senha" />
+        <p id="mensagemErro" class="mensagem-erro"></p>
+        <button onclick="fazerLogin()">Entrar</button>
+        <p>Não tem conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se</a></p>
+      </div>
+
+      <div id="abaCadastro" class="oculto">
+        <h2>Cadastrar Conta</h2>
+        <input id="novoUsuario" placeholder="Novo usuário" />
+        <input id="novaSenha" type="password" placeholder="Nova senha" />
+        <p id="mensagemCadastro" class="mensagem-erro"></p>
+        <button onclick="cadastrarUsuario()">Cadastrar</button>
+        <p>Já tem conta? <a href="#" onclick="mostrarLogin()">Voltar ao login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Menu -->
+  <div id="modalMenu" class="modal oculto">
+    <div class="modal-conteudo">
+      <span class="fechar" onclick="fecharMenu()">&times;</span>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="#">🏠 Página Inicial</a></li>
+        <li><a href="#">📖 Sobre</a></li>
+        <li><a href="#">📬 Contato</a></li>
+        <li><a href="#" onclick="buscar()">🔎 Buscar Conteúdo</a></li>
+        <li><a href="#">🖼️ Galeria</a></li>
+        <li><a href="#">⬇️ Downloads</a></li>
+        <li><a href="#">💬 Feedback</a></li>
+        <li><a href="#">🎲 Surpreenda-me</a></li>
+        <li><a href="#">🛎️ Notificações</a></li>
+        <li><a href="#">🧑‍🦯 Acessibilidade</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

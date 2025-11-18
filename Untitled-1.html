@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forja de Pesquisas - Solução de Pesquisas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Globais */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary-color: #6b7280;
+            --background-color: #f3f4f6;
+            --card-background: #ffffff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Navegação */
+        .main-nav {
+            background-color: var(--card-background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0 1rem;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4.5rem;
+        }
+
+        .nav-logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: none; /* Escondido em telas pequenas */
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background-color: #eef2ff;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-profile {
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-email {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Botões */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-logout {
+            background-color: #ef4444;
+            color: #fff;
+        }
+        .btn-logout:hover {
+            background-color: #dc2626;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .content-section {
+            display: none;
+        }
+        
+        #homepage {
+            display: block;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+
+        .section-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0.5rem auto 0;
+        }
+        
+        /* Cards */
+        .card {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .grid-3 {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* Formulários */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-container h2 {
+            text-align: center;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+        
+        .auth-toggle-text {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .auth-toggle-text a {
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Rodapé */
+        .main-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background-color: var(--border-color);
+            color: var(--text-light);
+        }
+        
+        /* Mensagem de Status */
+        .status-message {
+            position: fixed;
+            top: 5rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            z-index: 1001;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .success-message { background-color: #10b981; }
+        .error-message { background-color: #ef4444; }
+
+        /* Responsividade */
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegação principal do site -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#" data-page="homepage">Forja de Pesquisas</a>
+            </div>
+            <div class="nav-links">
+                <a href="#" data-page="homepage">Início</a>
+                <a href="#" data-page="pricing_plans">Planos</a>
+                <a href="#" data-page="survey_builder">Criador</a>
+                <a href="#" data-page="case_study">Estudos de Caso</a>
+                <a href="#" data-page="community_forum">Fórum</a>
+                <a href="#" data-page="about">Sobre</a>
+                <a href="#" data-page="contact">Contato</a>
+            </div>
+            <div class="auth-buttons">
+                <div id="auth-links">
+                    <button data-page="auth" class="btn btn-primary">Entrar</button>
+                </div>
+                <div id="user-profile" class="user-profile hidden">
+                    <span id="user-email"></span>
+                    <button id="logout-button" class="btn btn-logout">Sair</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container principal -->
+    <main class="main-content">
+        <div id="status-message" class="status-message hidden"></div>
+
+        <!-- Seção: Homepage -->
+        <section id="homepage" class="content-section">
+            <div class="card section-header">
+                <h1>Bem-vindo(a) à Forja de Pesquisas</h1>
+                <p>Sua solução completa para pesquisas e formulários.</p>
+                <button data-page="survey_builder" class="btn btn-primary" style="margin-top: 1.5rem;">Comece a Criar Agora</button>
+            </div>
+            <div class="card">
+                <h2>Recursos Exclusivos</h2>
+                <div class="grid-3">
+                    <div class="feature-card">
+                        <h3>Design Intuitivo</h3>
+                        <p>Crie pesquisas visualmente atraentes com nossa interface fácil de usar.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Análise Detalhada</h3>
+                        <p>Obtenha insights valiosos com dashboards e relatórios automáticos.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Compartilhamento Fácil</h3>
+                        <p>Compartilhe suas pesquisas por link, e-mail ou redes sociais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outras seções -->
+        <section id="pricing_plans" class="content-section card">
+            <div class="section-header">
+                <h1>Planos e Preços</h1>
+                <p>Escolha o plano que melhor se adapta às suas necessidades.</p>
+             </div>
+             <div class="grid-3">
+                <div class="pricing-card">
+                    <h3>Básico</h3>
+                    <p class="price">Gratuito</p>
+                    <ul><li>3 pesquisas/mês</li><li>100 respostas</li></ul>
+                </div>
+                <div class="pricing-card highlighted">
+                    <h3>Pro</h3>
+                    <p class="price">R$ 59/mês</p>
+                    <ul><li>Pesquisas ilimitadas</li><li>Análise avançada</li></ul>
+                </div>
+                <div class="pricing-card">
+                    <h3>Empresarial</h3>
+                    <p class="price">Sob Consulta</p>
+                    <ul><li>Suporte dedicado</li><li>Integrações</li></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="survey_builder" class="content-section card">
+             <div class="section-header">
+                <h1>Criador de Pesquisas</h1>
+                <p>Construa sua pesquisa de forma fácil e intuitiva.</p>
+            </div>
+            <div class="survey-area">
+                <h3>Arraste os elementos de pergunta aqui</h3>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button onclick="saveSurvey()" class="btn btn-primary">Salvar Pesquisa</button>
+            </div>
+        </section>
+
+        <section id="case_study" class="content-section card">
+            <div class="section-header">
+                <h1>Estudos de Caso</h1>
+                <p>Veja como nossos clientes alcançaram o sucesso.</p>
+            </div>
+        </section>
+
+        <section id="community_forum" class="content-section card">
+            <div class="section-header">
+                <h1>Fórum da Comunidade</h1>
+                <p>Conecte-se com outros usuários e troque experiências.</p>
+            </div>
+        </section>
+
+        <section id="about" class="content-section card">
+            <div class="section-header">
+                <h1>Sobre Nós</h1>
+                <p>Nossa missão é democratizar o acesso a dados de qualidade.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section card">
+            <div class="section-header">
+                <h1>Contato</h1>
+                <p>Entre em contato conosco para mais informações.</p>
+            </div>
+            <div class="form-container">
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="contact-name">Nome</label>
+                        <input type="text" id="contact-name" class="input-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Email</label>
+                        <input type="email" id="contact-email" class="input-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Mensagem</label>
+                        <textarea id="contact-message" rows="4" class="input-field"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </section>
+        
+        <section id="auth" class="content-section card">
+            <div class="form-container">
+                <div id="login-form">
+                    <h2>Fazer Login</h2>
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" name="email" required class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Senha</label>
+                            <input type="password" id="login-password" name="password" required class="input-field">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </form>
+                    <p class="auth-toggle-text">
+                        Não tem conta? <a id="show-register">Cadastre-se</a>
+                    </p>
+                </div>
+                <div id="register-form" class="hidden">
+                    <h2>Criar Conta</h2>
+                    <form id="registerForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-name">Nome</label>
+                            <input type="text" id="register-name" name="name" required class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" name="email" required class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Senha</label>
+                            <input type="password" id="register-password" name="password" required class="input-field">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </form>
+                    <p class="auth-toggle-text">
+                        Já tem uma conta? <a id="show-login">Faça login</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Forja de Pesquisas. Todos os direitos reservados.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // As configurações do Firebase e o token de autenticação são injetados automaticamente pelo ambiente.
+        // Se você estiver executando localmente, precisará inserir suas próprias configurações aqui.
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let app;
+        let auth;
+        let db;
+        
+        const statusMessage = document.getElementById('status-message');
+        const navLinks = document.querySelectorAll('[data-page]');
+        const sections = document.querySelectorAll('.content-section');
+        const authLinks = document.getElementById('auth-links');
+        const userProfile = document.getElementById('user-profile');
+        const userEmailSpan = document.getElementById('user-email');
+        const logoutButton = document.getElementById('logout-button');
+        const loginFormEl = document.getElementById('login-form');
+        const registerFormEl = document.getElementById('register-form');
+
+        // Função para mostrar mensagens de status
+        function showMessage(message, type = 'success') {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}-message`;
+            statusMessage.classList.remove('hidden');
+            setTimeout(() => statusMessage.classList.add('hidden'), 3000);
+        }
+
+        // Função para alternar as seções da página
+        function showPage(pageId) {
+            sections.forEach(section => {
+                section.style.display = section.id === pageId ? 'block' : 'none';
+            });
+        }
+        
+        // Função para inicializar o Firebase e o estado de autenticação
+        async function initializeAppAndAuth() {
+            try {
+                // Inicializa o Firebase
+                if (Object.keys(firebaseConfig).length > 0) {
+                    app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                } else {
+                    console.error("Configuração do Firebase não encontrada. O aplicativo pode não funcionar como esperado.");
+                    // Continua sem Firebase, mas a funcionalidade de autenticação não estará disponível.
+                }
+
+                // Configura o ouvinte para o estado de autenticação
+                onAuthStateChanged(auth, user => {
+                    if (user) {
+                        // Usuário logado
+                        authLinks.classList.add('hidden');
+                        userProfile.classList.remove('hidden');
+                        userEmailSpan.textContent = user.email || 'Usuário Anônimo';
+                        showPage('survey_builder');
+                    } else {
+                        // Usuário deslogado
+                        authLinks.classList.remove('hidden');
+                        userProfile.classList.add('hidden');
+                        showPage('homepage');
+                    }
+                });
+                
+                // Tenta fazer login com o token de autenticação customizado se disponível
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else if (auth) {
+                    // Tenta fazer login anonimamente se não houver token customizado
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                showMessage(`Erro de inicialização ou autenticação: ${error.message}`, 'error');
+                console.error("Erro de inicialização ou autenticação:", error);
+            }
+        }
+        
+        // Chama a função de inicialização
+        initializeAppAndAuth();
+
+        // Manipula a navegação
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(e.target.dataset.page);
+            });
+        });
+
+        // Manipula a troca de formulários de login/registro
+        document.getElementById('show-register').addEventListener('click', () => {
+            loginFormEl.classList.add('hidden');
+            registerFormEl.classList.remove('hidden');
+        });
+
+        document.getElementById('show-login').addEventListener('click', () => {
+            registerFormEl.classList.add('hidden');
+            loginFormEl.classList.remove('hidden');
+        });
+
+        // Lógica de Registro
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                showMessage('Conta criada com sucesso!', 'success');
+            } catch (error) {
+                showMessage(`Erro: ${error.message}`, 'error');
+            }
+        });
+
+        // Lógica de Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showMessage('Login bem-sucedido!', 'success');
+            } catch (error) {
+                showMessage(`Erro: ${error.message}`, 'error');
+            }
+        });
+
+        // Lógica de Logout
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage('Você foi desconectado.', 'success');
+            } catch (error) {
+                showMessage(`Erro ao sair: ${error.message}`, 'error');
+            }
+        });
+
+        // Exemplo de função para salvar a pesquisa (a ser expandida)
+        window.saveSurvey = function() {
+            showMessage('Pesquisa salva com sucesso!', 'success');
+        }
+    </script>
+</body>
+</html>

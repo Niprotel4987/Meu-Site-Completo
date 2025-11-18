@@ -10,9 +10,9 @@
   <header class="cabecalho">
     <h1>Meu Site Completo</h1>
     <nav class="menu">
-      <button onclick="abrirMenu()">☰ Menu</button>
-      <button onclick="abrirLogin()">Login</button>
-      <button onclick="alternarTema()">🌗 Tema</button>
+      <button type="button" onclick="abrirMenu()">☰ Menu</button>
+      <button type="button" onclick="abrirLogin()">Login</button>
+      <button type="button" onclick="alternarContraste()">🌗 Tema</button>
     </nav>
   </header>
 
@@ -20,55 +20,133 @@
     <p>Bem-vindo à página inicial! Explore os recursos disponíveis no menu acima.</p>
   </main>
 
+  <!-- Seções do Menu (SPA) -->
+  <section id="pagina-inicial" class="secao ativa">
+    <h2>Bem-vindo ao Meu Site Completo</h2>
+    <p>Explore os recursos disponíveis e aproveite a experiência personalizada.</p>
+  </section>
+
+  <section id="sobre" class="secao oculta">
+    <h2>Sobre Mim</h2>
+    <p>Sou Telmo, desenvolvedor apaixonado por tecnologia e educação digital.</p>
+  </section>
+
+  <section id="contato" class="secao oculta">
+    <h2>Fale Comigo</h2>
+    <form class="form-padrao" onsubmit="event.preventDefault(); alert('Mensagem enviada!');">
+      <label>
+        <span>Seu nome</span>
+        <input type="text" placeholder="Seu nome" required />
+      </label>
+      <label>
+        <span>Seu email</span>
+        <input type="email" placeholder="Seu email" required />
+      </label>
+      <label>
+        <span>Sua mensagem</span>
+        <textarea placeholder="Escreva aqui..." rows="5"></textarea>
+      </label>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <section id="buscar" class="secao oculta">
+    <h2>Buscar Conteúdo</h2>
+    <div class="busca-box">
+      <input type="search" placeholder="Digite sua busca..." />
+      <button type="button" onclick="buscarConteudo()">Buscar</button>
+    </div>
+    <div id="resultados"></div>
+  </section>
+
+  <section id="galeria" class="secao oculta">
+    <h2>Galeria de Projetos</h2>
+    <div class="grid-galeria">
+      <img src="assets/projeto1.png" alt="Projeto 1" />
+      <img src="assets/projeto2.png" alt="Projeto 2" />
+    </div>
+  </section>
+
+  <section id="downloads" class="secao oculta">
+    <h2>Downloads</h2>
+    <img src="assets/downloads.png" alt="Ícones de Arquivos" class="hero-img" />
+    <ul class="lista-downloads">
+      <li><a href="#" onclick="alert('Arquivo 1 em breve'); return false;">Baixar Arquivo 1</a></li>
+      <li><a href="#" onclick="alert('Arquivo 2 em breve'); return false;">Baixar Arquivo 2</a></li>
+    </ul>
+  </section>
+
+  <section id="feedback" class="secao oculta">
+    <h2>Deixe seu Feedback</h2>
+    <textarea placeholder="Sua opinião é importante!" rows="4" class="textarea-padrao"></textarea>
+    <button type="button" onclick="alert('Feedback enviado!')">Enviar</button>
+  </section>
+
+  <section id="surpreenda" class="secao oculta">
+    <h2>Surpresa!</h2>
+    <img src="assets/surpreenda.png" alt="Ilustração Surpreenda-me" class="hero-img" />
+    <p id="surpresa">Clique para ver algo inesperado.</p>
+    <button type="button" onclick="mostrarSurpresa()">Surpreenda-me</button>
+  </section>
+
+  <section id="notificacoes" class="secao oculta">
+    <h2>Notificações</h2>
+    <ul id="lista-notificacoes"></ul>
+  </section>
+
+  <section id="acessibilidade" class="secao oculta">
+    <h2>Acessibilidade</h2>
+    <p>Ative o modo alto contraste para melhor leitura.</p>
+    <button type="button" onclick="alternarContraste()">Modo Alto Contraste</button>
+  </section>
+
   <footer class="rodape">
     &copy; 2025 Telmo. Todos os direitos reservados.
   </footer>
 
-  <!-- Modal de Login/Cadastro -->
-  <div id="modalLogin" class="modal oculto">
+  <!-- Modal de Menu -->
+  <div id="modalMenu" class="modal oculto" aria-hidden="true" role="dialog" aria-label="Menu">
     <div class="modal-conteudo">
-      <span class="fechar" onclick="fecharLogin()">&times;</span>
-
-      <div id="abasLogin">
-        <h2>Login</h2>
-        <input id="usuario" placeholder="Usuário" />
-        <input id="senha" type="password" placeholder="Senha" />
-        <p id="mensagemErro" class="mensagem-erro"></p>
-        <button onclick="fazerLogin()">Entrar</button>
-        <p>Não tem conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se</a></p>
-      </div>
-
-      <div id="abaCadastro" class="oculto">
-        <h2>Cadastrar Conta</h2>
-        <input id="novoUsuario" placeholder="Novo usuário" />
-        <input id="novaSenha" type="password" placeholder="Nova senha" />
-        <p id="mensagemCadastro" class="mensagem-erro"></p>
-        <button onclick="cadastrarUsuario()">Cadastrar</button>
-        <p>Já tem conta? <a href="#" onclick="mostrarLogin()">Voltar ao login</a></p>
-      </div>
+      <button class="fechar" aria-label="Fechar menu" onclick="fecharMenu()">&times;</button>
+      <h2>Menu</h2>
+      <ul class="menu-lista">
+        <li><a href="#" data-destino="pagina-inicial">🏠 Página Inicial</a></li>
+        <li><a href="#" data-destino="sobre">📖 Sobre</a></li>
+        <li><a href="#" data-destino="contato">📬 Contato</a></li>
+        <li><a href="#" data-destino="buscar">🔎 Buscar Conteúdo</a></li>
+        <li><a href="#" data-destino="galeria">🖼️ Galeria</a></li>
+        <li><a href="#" data-destino="downloads">⬇️ Downloads</a></li>
+        <li><a href="#" data-destino="feedback">💬 Feedback</a></li>
+        <li><a href="#" data-destino="surpreenda">🎲 Surpreenda-me</a></li>
+        <li><a href="#" data-destino="notificacoes">🛎️ Notificações</a></li>
+        <li><a href="#" data-destino="acessibilidade">🧑‍🦯 Acessibilidade</a></li>
+      </ul>
     </div>
   </div>
 
-  <!-- Modal de Menu -->
-  <div id="modalMenu" class="modal oculto">
+  <!-- Modal de Login -->
+  <div id="modalLogin" class="modal oculto" aria-hidden="true" role="dialog" aria-label="Login">
     <div class="modal-conteudo">
-      <span class="fechar" onclick="fecharMenu()">&times;</span>
-      <h2>Menu</h2>
-      <ul>
-        <li><a href="#">🏠 Página Inicial</a></li>
-        <li><a href="#">📖 Sobre</a></li>
-        <li><a href="#">📬 Contato</a></li>
-        <li><a href="#" onclick="buscar()">🔎 Buscar Conteúdo</a></li>
-        <li><a href="#">🖼️ Galeria</a></li>
-        <li><a href="#">⬇️ Downloads</a></li>
-        <li><a href="#">💬 Feedback</a></li>
-        <li><a href="#">🎲 Surpreenda-me</a></li>
-        <li><a href="#">🛎️ Notificações</a></li>
-        <li><a href="#">🧑‍🦯 Acessibilidade</a></li>
-      </ul>
+      <button class="fechar" aria-label="Fechar login" onclick="fecharLogin()">&times;</button>
+      <h2>Login</h2>
+      <form class="form-padrao" onsubmit="event.preventDefault(); alert('Login simulado');">
+        <label>
+          <span>Usuário</span>
+          <input type="text" placeholder="Usuário" required />
+        </label>
+        <label>
+          <span>Senha</span>
+          <input id="campoSenha" type="password" placeholder="Senha" required />
+        </label>
+        <label class="inline">
+          <input type="checkbox" onclick="mostrarSenha()"> Mostrar senha
+        </label>
+        <button type="submit">Entrar</button>
+      </form>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+

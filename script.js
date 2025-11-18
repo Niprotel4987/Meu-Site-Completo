@@ -1,95 +1,110 @@
-function abrirLogin() {
-  document.getElementById("modalLogin").classList.remove("oculto");
-  mostrarLogin();
+// Navegação SPA: mostrar/ocultar seções
+function mostrarSecao(id) {
+  const secoes = document.querySelectorAll('.secao');
+  secoes.forEach(secao => {
+    if (secao.id === id) {
+      secao.classList.add('ativa');
+      secao.classList.remove('oculta');
+    } else {
+      secao.classList.remove('ativa');
+      secao.classList.add('oculta');
+    }
+  });
 }
 
-function fecharLogin() {
-  document.getElementById("modalLogin").classList.add("oculto");
-}
-
+// Modal Menu
 function abrirMenu() {
-  document.getElementById("modalMenu").classList.remove("oculto");
+  const modal = document.getElementById("modalMenu");
+  modal.classList.remove("oculto");
+  modal.style.display = "flex";
 }
-
 function fecharMenu() {
-  document.getElementById("modalMenu").classList.add("oculto");
+  const modal = document.getElementById("modalMenu");
+  modal.classList.add("oculto");
+  modal.style.display = "none";
 }
 
-function mostrarCadastro() {
-  document.getElementById("abasLogin").classList.add("oculto");
-  document.getElementById("abaCadastro").classList.remove("oculto");
-  document.getElementById("mensagemCadastro").textContent = "";
+// Modal Login
+function abrirLogin() {
+  const modal = document.getElementById("modalLogin");
+  modal.classList.remove("oculto");
+  modal.style.display = "flex";
+}
+function fecharLogin() {
+  const modal = document.getElementById("modalLogin");
+  modal.classList.add("oculto");
+  modal.style.display = "none";
+}
+function mostrarSenha() {
+  const senha = document.getElementById('campoSenha');
+  senha.type = senha.type === "password" ? "text" : "password";
 }
 
-function mostrarLogin() {
-  document.getElementById("abaCadastro").classList.add("oculto");
-  document.getElementById("abasLogin").classList.remove("oculto");
-  document.getElementById("mensagemErro").textContent = "";
-  limparErros();
-}
-
-function cadastrarUsuario() {
-  const novoUsuario = document.getElementById("novoUsuario").value.trim();
-  const novaSenha = document.getElementById("novaSenha").value.trim();
-  const msg = document.getElementById("mensagemCadastro");
-
-  if (!novoUsuario || !novaSenha) {
-    msg.textContent = "Preencha todos os campos.";
-    return;
-  }
-
-  localStorage.setItem("usuarioSalvo", novoUsuario);
-  localStorage.setItem("senhaSalva", novaSenha);
-
-  msg.style.color = "green";
-  msg.textContent = "Usuário cadastrado com sucesso!";
-}
-
-function fazerLogin() {
-  const usuario = document.getElementById("usuario");
-  const senha = document.getElementById("senha");
-  const mensagemErro = document.getElementById("mensagemErro");
-
-  const usuarioValido = localStorage.getItem("usuarioSalvo");
-  const senhaValida = localStorage.getItem("senhaSalva");
-
-  limparErros();
-
-  if (usuario.value === usuarioValido && senha.value === senhaValida) {
-    mensagemErro.textContent = "";
-    alert(`Bem-vindo, ${usuario.value}!`);
-    fecharLogin();
-  } else {
-    mensagemErro.textContent = "Usuário ou senha incorretos.";
-
-    if (usuario.value !== usuarioValido) {
-      usuario.classList.add("erro");
-    }
-    if (senha.value !== senhaValida) {
-      senha.classList.add("erro");
-    }
-  }
-}
-
-function limparErros() {
-  document.getElementById("usuario").classList.remove("erro");
-  document.getElementById("senha").classList.remove("erro");
-}
-
-function alternarTema() {
+// Tema / alto contraste
+function alternarContraste() {
   document.body.classList.toggle("tema-escuro");
-  localStorage.setItem("tema", document.body.classList.contains("tema-escuro") ? "escuro" : "claro");
 }
 
-function buscar() {
-  const termo = prompt("O que deseja buscar?");
-  if (termo) {
-    alert(`Você buscou por: "${termo}". (simulação)`);
-  }
+// Busca simulada
+function buscarConteudo() {
+  const termo = document.querySelector('#buscar input[type="search"]').value.trim().toLowerCase();
+  const resultados = document.getElementById("resultados");
+  resultados.innerHTML = termo
+    ? `<p>Resultados para: <strong>${termo}</strong></p><ul><li>Exemplo de resultado 1</li><li>Exemplo de resultado 2</li></ul>`
+    : `<p>Digite algo para buscar.</p>`;
 }
 
-window.onload = () => {
-  if (localStorage.getItem("tema") === "escuro") {
-    document.body.classList.add("tema-escuro");
-  }
-};
+// Surpresa
+function mostrarSurpresa() {
+  const frases = [
+    "Você é incrível!",
+    "Hoje é um ótimo dia para aprender algo novo.",
+    "Continue criando, Telmo!",
+    "Pequenos passos constroem grandes projetos.",
+    "Ideias boas merecem ser testadas!"
+  ];
+  const aleatoria = frases[Math.floor(Math.random() * frases.length)];
+  document.getElementById("surpresa").textContent = aleatoria;
+}
+
+// Notificações simuladas
+const notificacoes = [
+  "Nova versão disponível!",
+  "Você tem 3 mensagens novas.",
+  "Backup concluído com sucesso."
+];
+const lista = document.getElementById("lista-notificacoes");
+if (lista) {
+  lista.innerHTML = notificacoes.map(n => `<li>${n}</li>`).join('');
+}
+
+// Ativar links do modalMenu via data-destino (evita erro com emojis)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#modalMenu a[data-destino]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const destino = link.getAttribute('data-destino');
+      if (destino) {
+        mostrarSecao(destino);
+        fecharMenu();
+      }
+    });
+  });
+
+  // Fechar modais clicando fora do conteúdo
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.id === 'modalMenu' ? fecharMenu() : fecharLogin();
+      }
+    });
+  });
+
+  // Acessibilidade: Esc fecha modais
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      fecharMenu();
+      fecharLogin();
+    }
+  });
+});
